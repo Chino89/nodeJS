@@ -1,0 +1,26 @@
+{
+  "name": "proyectoemmavivas",
+  "version": "1.0.0",
+  "description": "Ejercicio NodeJS Cluster 1 - Vivas Emmanuel",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chino89/nodeJS.git"
+  },
+  "author": "Vivas Emmanuel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chino89/nodeJS/issues"
+  },
+  "homepage": "https://github.com/Chino89/nodeJS#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "passport": "^0.6.0",
+    "sequelize": "^6.32.0"
+  }
+}
