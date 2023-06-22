@@ -4,6 +4,9 @@ const router = express.Router()
 const {bookController} = require("../controllers")
 
 
+router.get("/", bookController.getBook);
+
+
 // // Crear libro (*) (AUTH)
 router.post("/:bookId", bookController.createBook);
 
@@ -11,12 +14,12 @@ router.post("/:bookId", bookController.createBook);
 
 router.get("/:bookId", (req, res) => {
     console.log(`book found with id ${req.params.bookId}`)
-    res.json({ id: req.params.bookId, ...req.body})
+    res.json({ id: req.params.bookId, ...req.body});
 });
 
 const errorHandler = (err, req, res, next) => {
     if (err.message === 'Book already exist' ) {
-        res.status(400)
+        res.status(500)
         res.json({ message:`File ${bookFile} already exist`})
     } else {
         res.status(500)
