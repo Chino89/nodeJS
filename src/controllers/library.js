@@ -42,6 +42,7 @@ const updateLibrary = async (req, res) => {
       name: req.body.name,
       location: req.body.location,
       telephone: req.body.telephone,
+      active: req.body.active,
     }, {
       where: {
         id: req.params.libraryId,
@@ -77,8 +78,6 @@ const deleteLibrary = async (req, res) => {
     res.json((500), { action: 'Delete library', error: err.message });
   }
 };
-
-// const addNewBook
 
 module.exports = {
   createLibrary, getLibrary, getAllLibraries, updateLibrary, deleteLibrary,

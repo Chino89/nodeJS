@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 const { Book } = require('../models');
 
 const createBook = async (req, res) => {
@@ -44,6 +43,7 @@ const updateBook = async (req, res) => {
       title: req.body.title,
       author: req.body.author,
       year: req.body.year,
+      library: req.body.library,
       active: req.body.active,
     }, {
       where: {
