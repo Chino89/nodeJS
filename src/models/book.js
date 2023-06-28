@@ -25,10 +25,6 @@ const Book = sequelize.define('Books', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  library: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
   active: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
@@ -37,7 +33,8 @@ const Book = sequelize.define('Books', {
 });
 
 Library.hasMany(Book, {
-  foreignKey: 'library',
+  foreignKey: 'libraryId',
 });
+Book.belongsTo(Library);
 
 module.exports = Book;

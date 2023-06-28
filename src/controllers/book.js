@@ -25,7 +25,11 @@ const getBook = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-    const allBooks = await Book.findAll();
+    const allBooks = await Book.findAll({
+      where: {
+        active: true,
+      },
+    });
     if (!allBooks) {
       res.status((404), { action: 'Get all books', error: 'Books not found' });
     } else {
@@ -43,7 +47,7 @@ const updateBook = async (req, res) => {
       title: req.body.title,
       author: req.body.author,
       year: req.body.year,
-      library: req.body.library,
+      LibraryId: req.body.LibraryId,
       active: req.body.active,
     }, {
       where: {
@@ -64,7 +68,7 @@ const updateBook = async (req, res) => {
 const deleteBook = async (req, res) => {
   try {
     const deleted = await Book.update({
-      active: req.body.active,
+      active: false,
     }, {
       where: {
         id: req.params.bookId,
