@@ -3,10 +3,10 @@ const { libraryController } = require('../controllers');
 
 const router = express.Router();
 
-router.post('/', libraryController.createLibrary);
+router.post('/', libraryController.createLibrary); // (AUTH)
 router.get('/all', libraryController.getAllLibraries);
 router.get('/:libraryId', libraryController.getLibrary);
-router.post('/:libraryId', libraryController.updateLibrary);
-router.delete('/:libraryId', libraryController.deleteLibrary);
+router.post('/:libraryId', libraryController.updateLibrary); // (AUTH)
+router.delete('/:libraryId', libraryController.deleteLibrary); // (AUTH)
 
 module.exports = router;

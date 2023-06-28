@@ -6,7 +6,7 @@ const createLibrary = async (req, res) => {
     const newLibrary = await Library.create(req.body);
     res.json(newLibrary);
   } catch (err) {
-    res.json((500), { action: 'Create Library', error: err.message });
+    res.json((500), { action: 'Create Library', error: 'Los campos son requeridos' });
   }
 };
 
@@ -25,7 +25,16 @@ const getLibrary = async (req, res) => {
 
 const getAllLibraries = async (req, res) => {
   try {
-    const allLibraries = await Library.findAll({ include: { model: Book } });
+    const allLibraries = await Library.findAll({
+      where: {
+        active: true,
+      },
+      include: {
+        model: Book,
+        where: { active: true },
+        required: false,
+      },
+    });
     if (!allLibraries) {
       res.status((404), { action: 'Get all libraries', error: 'Libraries not found' });
     } else {
@@ -62,15 +71,16 @@ const updateLibrary = async (req, res) => {
 const deleteLibrary = async (req, res) => {
   try {
     const deleted = await Library.update({
-      active: req.body.active,
+      active: false,
     }, {
       where: {
         id: req.params.libraryId,
       },
     });
     if (deleted[0] > 0) {
-      const libraryDeleted = await Library.findByPk(req.params.libraryId);
-      res.json(libraryDeleted);
+      const library = await Library.findByPk(req.params.libraryId);
+      await library.setBooks([]);
+      res.json(library);
     } else {
       res.json(400, { action: 'Delete library', error: 'Library not deleted' });
     }
