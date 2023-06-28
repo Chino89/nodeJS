@@ -1,12 +1,13 @@
 const express = require('express');
+const { userIsAdminMDW } = require('../middleware/auth');
 const { libraryController } = require('../controllers');
 
 const router = express.Router();
 
-router.post('/', libraryController.createLibrary); // (AUTH)
+router.post('/', userIsAdminMDW, libraryController.createLibrary); // (AUTH)
 router.get('/all', libraryController.getAllLibraries);
 router.get('/:libraryId', libraryController.getLibrary);
-router.post('/:libraryId', libraryController.updateLibrary); // (AUTH)
-router.delete('/:libraryId', libraryController.deleteLibrary); // (AUTH)
+router.post('/:libraryId', userIsAdminMDW, libraryController.updateLibrary); // (AUTH)
+router.delete('/:libraryId', userIsAdminMDW, libraryController.deleteLibrary); // (AUTH)
 
 module.exports = router;
