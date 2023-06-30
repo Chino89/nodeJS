@@ -6,8 +6,9 @@ const createLibrary = async (library) => {
     const newLibrary = await Library.create(library);
     return newLibrary;
   } catch (err) {
-    console.error({ action: 'Create Library', error: err.message });
-    throw err;
+    const error = new Error('Unauthorized to create');
+    error.code = 401;
+    throw error;
   }
 };
 

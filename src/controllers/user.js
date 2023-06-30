@@ -3,7 +3,7 @@ const { userService } = require('../services');
 
 const createUser = async (req, res) => {
   try {
-    const newUser = await userService.createUser(req.body, req.params.id);
+    const newUser = await userService.createUser(req.body);
     res.json((200), newUser);
   } catch (err) {
     res.json(err.code ?? 500, { action: 'Create user', error: err.message });

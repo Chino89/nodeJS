@@ -3,9 +3,9 @@ const { bookService } = require('../services');
 const createBook = async (req, res) => {
   try {
     const newBook = await bookService.createBook(req.body);
-    res.json((200), newBook);
+    res.json((201), newBook);
   } catch (err) {
-    res.json((500), { action: 'Create book', error: err.message });
+    res.json(err.code ?? 500, { action: 'Create book', error: err.message });
   }
 };
 

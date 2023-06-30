@@ -4,9 +4,9 @@ const { libraryService } = require('../services');
 const createLibrary = async (req, res) => {
   try {
     const newLibrary = await libraryService.createLibrary(req.body);
-    res.json((200), newLibrary);
+    res.json((201), newLibrary);
   } catch (err) {
-    res.json((500), { action: 'Create Library', error: err.message });
+    res.json(err.code ?? 500, { action: 'Create Library', error: err.message });
   }
 };
 

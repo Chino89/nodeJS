@@ -72,7 +72,9 @@ const getAllUsers = async () => {
       },
     });
     if (!allUsers) {
-      throw new Error('Users not found');
+      const error = new Error('Users not found');
+      error.code = 404;
+      throw error;
     } else {
       return allUsers;
     }

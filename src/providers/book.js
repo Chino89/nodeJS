@@ -6,8 +6,9 @@ const createBook = async (book) => {
     const newBook = await Book.create(book);
     return newBook;
   } catch (err) {
-    console.error('Error when creating Book', err);
-    throw err;
+    const error = new Error('Unauthorized to create');
+    error.code = 401;
+    throw error;
   }
 };
 
@@ -65,7 +66,7 @@ const updateBook = async (book, id) => {
       const bookUpdated = await Book.findByPk(id);
       return bookUpdated;
     }
-    const error = new Error('Book not updated');
+    const error = new Error('Book not found');
     error.code = 404;
     throw error;
   } catch (err) {
@@ -87,8 +88,8 @@ const deleteBook = async (id) => {
       const bookDeleted = await Book.findByPk(id);
       return bookDeleted;
     }
-    const error = new Error('Can not delete this book');
-    error.code = 400;
+    const error = new Error('Book not found');
+    error.code = 404;
     throw error;
   } catch (err) {
     console.error({ action: 'Delete book', error: err.message });
