@@ -3,10 +3,10 @@ const { userService } = require('../services');
 
 const createUser = async (req, res) => {
   try {
-    const newUser = await userService.createUser(req.body);
+    const newUser = await userService.createUser(req.body, req.params.id);
     res.json((200), newUser);
   } catch (err) {
-    res.json((500), { action: 'Create user', error: err.message });
+    res.json(err.code ?? 500, { action: 'Create user', error: err.message });
   }
 };
 
@@ -24,7 +24,7 @@ const getUser = async (req, res) => {
     const user = await userService.getUser(req.params.userId);
     res.json((200), user);
   } catch (err) {
-    res.json((500), { action: 'Get user', error: err.message });
+    res.json(err.code ?? 500, { action: 'Get user', error: err.message });
   }
 };
 
@@ -42,7 +42,7 @@ const updateUser = async (req, res) => {
     const update = await userService.updateUser(req.body, req.params.userId);
     res.json((200), update);
   } catch (err) {
-    res.json((500), { action: 'Update user', error: err.message });
+    res.json(err.code ?? 500, { action: 'Update user', error: err.message });
   }
 };
 

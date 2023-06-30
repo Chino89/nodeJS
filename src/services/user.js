@@ -1,7 +1,7 @@
 /* eslint-disable no-return-await */
 const { userProvider } = require('../providers');
 
-const createUser = async (user) => await userProvider.createUser(user);
+const createUser = async (user, id) => await userProvider.createUser(user, id);
 
 const createAdmin = async () => await userProvider.createAdmin();
 

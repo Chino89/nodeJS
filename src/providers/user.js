@@ -1,13 +1,20 @@
 /* eslint-disable no-console */
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 const { User, Admin } = require('../models');
-const { usedEmail } = require('../Helpers/validator');
 
 const createUser = async (user) => {
   try {
-    const available = await usedEmail(user);
-    if (!available) {
-      return { action: 'Create user', message: 'That email is not available' };
+    const userInDatabase = await User.findOne({
+      where: {
+        email: user.email,
+      },
+    });
+
+    if (userInDatabase) {
+      const error = new Error('Email already in use');
+      error.code = 409;
+      throw error;
     }
     const hashedPassword = await bcrypt.hash(user.password, 10);
     const newUser = await User.create({
@@ -45,7 +52,9 @@ const getUser = async (id) => {
   try {
     const user = await User.findByPk(id);
     if (!user) {
-      throw new Error('User not found');
+      const error = new Error('User not found');
+      error.code = 404;
+      throw error;
     } else {
       return (user);
     }
@@ -75,30 +84,63 @@ const getAllUsers = async () => {
 
 const updateUser = async (user, id) => {
   try {
-    const available = await usedEmail(user);
-    if (!available) {
-      const update = await User.update({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        active: user.active,
-      }, {
+    if (user.email) {
+      const userExist = await User.findOne({
         where: {
-          id,
+          email: user.email,
+          id: { [Op.not]: id },
         },
       });
-      if (update[0] > 0) {
-        const userUpdated = await User.findByPk(id);
-        return userUpdated;
+
+      if (userExist) {
+        const error = new Error('Email already in use');
+        error.code = 409;
+        throw error;
       }
-      throw new Error('User not found');
-    } else {
-      throw new Error('That email is not available');
     }
+    const update = await User.update({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      active: user.active,
+    }, {
+      where: {
+        id,
+      },
+    });
+    if (update[0] > 0) {
+      const userUpdated = await User.findByPk(id);
+      return userUpdated;
+    }
+    const error = new Error('User not found');
+    error.code = 404;
+    throw error;
   } catch (err) {
     console.error({ action: 'Update user', error: err.message });
     throw err;
   }
+// try {
+  //   const update = await User.update({
+  //     firstName: user.firstName,
+  //     lastName: user.lastName,
+  //     email: user.email,
+  //     active: user.active,
+  //   }, {
+  //     where: {
+  //       id,
+  //     },
+  //   });
+  //   if (update[0] > 0) {
+  //     const userUpdated = await User.findByPk(id);
+  //     return userUpdated;
+  //   }
+  //   const error = new Error('User not found');
+  //   error.code = 404;
+  //   throw error;
+  // } catch (err) {
+  //   console.error({ action: 'Update user', error: err.message });
+  //   throw err;
+  // }
 };
 
 const deleteUser = async (id) => {

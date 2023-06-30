@@ -1,87 +1,47 @@
-/* eslint-disable no-console */
-const { Book } = require('../models');
+const { bookService } = require('../services');
 
 const createBook = async (req, res) => {
   try {
-    const newBook = await Book.create(req.body);
-    res.json(newBook);
+    const newBook = await bookService.createBook(req.body);
+    res.json((200), newBook);
   } catch (err) {
-    res.json((500), { action: 'Create Book', error: err.message });
+    res.json((500), { action: 'Create book', error: err.message });
   }
 };
 
 const getBook = async (req, res) => {
   try {
-    const book = await Book.findByPk(req.params.bookId);
-    if (!book) {
-      res.json((404), { action: 'Get book', error: 'Book not found' });
-    } else {
-      res.json(book);
-    }
+    const book = await bookService.getBook(req.params.bookId);
+    res.json((200), book);
   } catch (err) {
-    res.json((500), { action: 'Get book', error: err.message });
+    res.json(err.code ?? 500, { action: 'Get book', error: err.message });
   }
 };
 
 const getAllBooks = async (req, res) => {
   try {
-    const allBooks = await Book.findAll({
-      where: {
-        active: true,
-      },
-    });
-    if (!allBooks) {
-      res.status((404), { action: 'Get all books', error: 'Books not found' });
-    } else {
-      res.json(allBooks);
-    }
+    const allBooks = await bookService.getAllBooks();
+    res.json((200), allBooks);
   } catch (err) {
-    res.json((500), { action: 'Get all books', error: err.message });
+    res.json(err.code ?? 500, { action: 'Get all books', error: err.message });
   }
 };
 
 const updateBook = async (req, res) => {
   try {
-    const update = await Book.update({
-      isbn: req.body.isbn,
-      title: req.body.title,
-      author: req.body.author,
-      year: req.body.year,
-      LibraryId: req.body.LibraryId,
-      active: req.body.active,
-    }, {
-      where: {
-        id: req.params.bookId,
-      },
-    });
-    if (update[0] > 0) {
-      const bookUpdated = await Book.findByPk(req.params.bookId);
-      res.json(bookUpdated);
-    } else {
-      res.json(400, { action: 'Update book', error: 'Book not found' });
-    }
+    const update = await bookService.updateBook(req.body, req.params.bookId);
+    res.json((200), update);
   } catch (err) {
-    res.json((500), { action: 'Update book', error: err.message });
+    res.json(err.code ?? 500, { action: 'Update book', error: err.message });
   }
 };
 
 const deleteBook = async (req, res) => {
   try {
-    const deleted = await Book.update({
-      active: false,
-    }, {
-      where: {
-        id: req.params.bookId,
-      },
-    });
-    if (deleted[0] > 0) {
-      const bookDeleted = await Book.findByPk(req.params.bookId);
-      res.json(bookDeleted);
-    } else {
-      res.json(400, { action: 'Delete book', error: 'Book not deleted' });
-    }
+    const inactiveBook = await bookService.deleteBook(req.params.bookId);
+    res.json((200), inactiveBook);
   } catch (err) {
-    res.json((500), { action: 'Delete book', error: err.message });
+    res.json(err.code ?? 500, { action: 'Delete book', error: err.message });
   }
 };
 

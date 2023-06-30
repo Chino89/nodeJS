@@ -15,7 +15,7 @@ const getLibrary = async (req, res) => {
     const library = await libraryService.getLibrary(req.params.libraryId);
     res.json((200), library);
   } catch (err) {
-    res.json((500), { action: 'Get library', error: err.message });
+    res.json(err.code ?? 500, { action: 'Get library', error: err.message });
   }
 };
 
@@ -24,7 +24,7 @@ const getAllLibraries = async (req, res) => {
     const allLibraries = await libraryService.getAllLibraries();
     res.json((200), allLibraries);
   } catch (err) {
-    res.json((500), { action: 'Get all libraries', error: err.message });
+    res.json(err.code ?? 500, { action: 'Get all libraries', error: err.message });
   }
 };
 
@@ -39,8 +39,8 @@ const updateLibrary = async (req, res) => {
 
 const deleteLibrary = async (req, res) => {
   try {
-    const libraryInactive = await libraryService.deleteLibrary(req.params.libraryId);
-    res.json((200), libraryInactive);
+    const inactiveLibrary = await libraryService.deleteLibrary(req.params.libraryId);
+    res.json((200), inactiveLibrary);
   } catch (err) {
     res.json(err.code ?? 500, { action: 'Delete library', error: err.message });
   }

@@ -15,7 +15,9 @@ const getLibrary = async (id) => {
   try {
     const library = await Library.findByPk(id);
     if (!library) {
-      throw new Error('Library not found');
+      const error = new Error('Library not found');
+      error.code = 404;
+      throw error;
     } else {
       return library;
     }
@@ -38,7 +40,9 @@ const getAllLibraries = async () => {
       },
     });
     if (!allLibraries) {
-      throw new Error('Libraries not found');
+      const error = new Error('Libraries not found');
+      error.code = 404;
+      throw error;
     } else {
       return allLibraries;
     }
