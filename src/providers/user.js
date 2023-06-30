@@ -40,7 +40,7 @@ const createAdmin = async () => {
         user: 'admin',
         pass: 'admin',
       });
-      return (`Welcome, ${newUser.user}`);
+      return ('Welcome admin', newUser);
     }
   } catch (err) {
     console.error({ action: 'Create admin', error: err.message });

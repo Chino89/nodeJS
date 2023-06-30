@@ -6,6 +6,7 @@ const {
 } = require('./routes');
 
 const { initializeDB } = require('./config/db-config');
+const { initAdmin } = require('./config/initAdmin');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 
 app.listen(PORT, async () => {
   await initializeDB();
+  await initAdmin();
   // eslint-disable-next-line no-console
   console.log(`server running on port ${PORT}`);
 });

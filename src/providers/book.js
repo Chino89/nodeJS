@@ -55,7 +55,7 @@ const updateBook = async (book, id) => {
       title: book.title,
       author: book.author,
       year: book.year,
-      LibraryId: book.LibraryId,
+      library: book.library,
       active: book.active,
     }, {
       where: {

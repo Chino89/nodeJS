@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
 const createAdmin = async (req, res) => {
   try {
     const newUser = await userService.createAdmin(req.body);
-    res.json((200), `Wellcome, ${newUser.user}`);
+    res.json((200), 'Welcome admin');
   } catch (err) {
     res.json((500), { action: 'Create admin', error: err.message });
   }

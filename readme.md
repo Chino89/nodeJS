@@ -48,9 +48,15 @@ _Generé un **Admin**_
 | pass      | String     | 'admin'|
 
 ***
-## Descripcion del proceso. 
-Desarrollé un **CRUD** para las entidades: **Librería**, **Libro** y **Usuario**. 
+## Inicializacion
+La api se inicializa ejecutando el código **npm start** en la terminal. 
 
+Esto en primera instancia **inicializa la base de datos**, y crea las tablas que componen la API.
+En segundo lugar **genera el usuario admin automaticamente**, el cual es inyectado en el modelo correspondiente.
+
+Al estar seteado **{force: true}** cada vez que se inicializa el proyecto la base de datos está limpia y con el admin preparado para el **login**.
+
+***
 ## Login
 ***Solo para el user: admin***
 
@@ -89,7 +95,11 @@ La session es seteada en **false** para que la token no expire, ya que estamos t
 Si existe un error, devuelve el error junto con un **status 401**; si no devuelve el User y continua el proceso.
 
 **Este MDW es utilizado en todos los endpoints que necesitan autenticación, ya que las mismas solamente podrán ser realizadas por el Admin.**
+***
 
+# Descripcion del proceso. 
+Desarrollé un **CRUD** para las entidades: **Librería**, **Libro** y **Usuario**. 
+***
 ## Método CREATE
 ***Requiere autenticación***
 ### bookCreate
