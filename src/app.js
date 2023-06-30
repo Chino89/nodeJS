@@ -1,7 +1,9 @@
 const express = require('express');
 
 const PORT = 3030;
-const { bookRouter, libraryRouter, userRouter } = require('./routes');
+const {
+  bookRouter, libraryRouter, userRouter, loginRouter,
+} = require('./routes');
 
 const { initializeDB } = require('./config/db-config');
 
@@ -12,6 +14,7 @@ app.use(express.json());
 app.use('/book', bookRouter);
 app.use('/library', libraryRouter);
 app.use('/user', userRouter);
+app.use('/login', loginRouter);
 
 app.use((req, res, next) => {
   // eslint-disable-next-line no-console

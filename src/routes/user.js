@@ -4,7 +4,9 @@ const router = express.Router();
 
 const { userController } = require('../controllers');
 
-router.post('/', userController.createAdmin);
+// Ruta utilizada para generar el admin user
+// router.post('/', userController.createAdmin);
+router.post('/', userController.createUser);
 router.get('/all', userController.getAllUsers);
 router.get('/:userId', userController.getUser);
 router.post('/:userId', userController.updateUser);
